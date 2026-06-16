@@ -776,7 +776,7 @@ const PRELOAD_BATCH = 250;     // load ~55% of frames before showing site
 const AHEAD_BUFFER  = 40;      // preload this many frames ahead of scroll
 const PARALLEL_LOADS = 6;      // concurrent fetches at a time
 
-const BASE_URL = 'https://huggingface.co/datasets/vesastudios/property-frames/resolve/main/';
+const BASE_URL = 'https://cdn.jsdelivr.net/gh/vesastudios1/property-site@main/images/';
 
 const canvas = document.getElementById('film-canvas');
 const ctx    = canvas.getContext('2d');
@@ -804,8 +804,17 @@ let currentFrame = 0;
 let rafPending   = false;
 let lastDrawn    = -1;
 
+function frameFolder(n) {
+  if (n <= 99) return '99';
+  if (n <= 198) return '100-198';
+  if (n <= 297) return '199-297';
+  if (n <= 397) return '298-397';
+  return '398-452';
+}
+
 function frameName(idx) {
-  return `ezgif-frame-${String(idx + 1).padStart(3, '0')}.png`;
+  const n = idx + 1;
+  return `${frameFolder(n)}/ezgif-frame-${String(n).padStart(3, '0')}.png`;
 }
 
 function loadFrame(idx) {
